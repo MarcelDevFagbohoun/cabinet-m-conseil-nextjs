@@ -1,0 +1,150 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Palette de la marque, exprimée en triplets RVB pour permettre les
+     modificateurs d'opacité Tailwind (ex. bg-gold/15). */
+  --bg: 250 243 230;
+  --bg-alt: 241 230 210;
+  --bg-raised: 255 255 255;
+  --bg-raised-2: 255 251 243;
+
+  --gold: 222 106 45;
+  --gold-light: 240 149 92;
+  --gold-deep: 184 78 27;
+
+  --ink: 34 26 18;
+  --ink-dim: 107 93 79;
+  --ink-faint: 140 129 113;
+
+  --wine: 166 67 46;
+
+  --dark: 36 27 18;
+  --on-dark: 247 241 230;
+  --on-dark-dim: 217 203 184;
+
+  --line: rgba(34, 26, 18, 0.1);
+  --line-strong: rgba(34, 26, 18, 0.18);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: rgb(var(--bg));
+    color: rgb(var(--ink));
+    font-family: var(--font-body), system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display), Georgia, serif;
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+  }
+
+  ::selection {
+    background: rgb(var(--gold));
+    color: #fff;
+  }
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-container px-5 sm:px-8;
+  }
+
+  .eyebrow {
+    @apply mb-4 inline-flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-[0.22em] text-gold;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-bold transition duration-300;
+  }
+
+  .btn-gold {
+    @apply btn text-white shadow-card;
+    background: linear-gradient(135deg, rgb(var(--gold)), rgb(var(--gold-deep)));
+  }
+
+  .btn-gold:hover {
+    filter: brightness(1.06);
+    transform: translateY(-1px);
+  }
+
+  .btn-ghost {
+    @apply btn border border-line-strong bg-transparent text-ink hover:bg-bg-alt;
+  }
+
+  .btn-dark {
+    @apply btn bg-dark text-on-dark hover:bg-ink;
+  }
+
+  .card {
+    @apply rounded-lg border border-line bg-raised shadow-card;
+  }
+
+  .badge {
+    @apply inline-flex items-center rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-widest;
+  }
+
+  .field-label {
+    @apply mb-1.5 block text-xs font-bold uppercase tracking-widest text-ink-dim;
+  }
+
+  .field {
+    @apply w-full rounded-md border border-line-strong bg-raised px-3.5 py-2.5 text-sm text-ink outline-none transition placeholder:text-ink-faint focus:border-gold focus:ring-2 focus:ring-gold/25;
+  }
+
+  .prose-cmc {
+    @apply text-[16.5px] leading-[1.85] text-ink-dim;
+  }
+
+  .prose-cmc p {
+    @apply mb-5;
+  }
+
+  .prose-cmc h2 {
+    @apply mb-3 mt-9 text-2xl text-ink;
+  }
+
+  .prose-cmc h3 {
+    @apply mb-2 mt-7 text-xl text-ink;
+  }
+
+  .prose-cmc ul {
+    @apply mb-5 list-disc space-y-2 pl-5;
+  }
+
+  .prose-cmc a {
+    @apply font-semibold text-gold underline underline-offset-4;
+  }
+}
+
+/* Texture grain discrète sur le fond crème */
+.grain::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
