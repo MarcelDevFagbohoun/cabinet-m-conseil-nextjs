@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Cabinet M Conseils — site + espace d'administration
 
 Site vitrine et catalogue immobilier du **Cabinet M Conseils** (Cotonou, Bénin).
@@ -100,3 +101,6 @@ public/uploads/      fichiers téléversés (à sauvegarder)
 VPS ou hébergement Node.js (Node 18.17+) avec MySQL 8 :
 `npm run build` puis `npm run start` derrière Nginx (HTTPS obligatoire pour le cookie `Secure`).
 Le dossier `public/uploads` doit être persistant et inclus dans les sauvegardes.
+=======
+# cabinet-m-conseil-nextjs
+>>>>>>> 38095222afcb1bc6c1f135ee4126eff798ca6f5e
