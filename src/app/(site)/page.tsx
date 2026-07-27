@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import PropertyCard from "@/components/PropertyCard";
@@ -7,16 +8,20 @@ import { services, site, waLink } from "@/lib/site";
 export const revalidate = 300;
 
 export const metadata: Metadata = {
-  title: `${site.name} — Rédaction d'actes, recouvrement, conseil juridique & immobilier`,
+  title: `${site.name} - Rédaction d'actes, recouvrement, conseil juridique & immobilier`,
   description: site.description,
-  alternates: { canonical: "/" },
+  alternates: {
+    canonical: "/",
+  },
 };
 
 export default async function HomePage() {
   let featured: Awaited<ReturnType<typeof listProperties>> = [];
+
   try {
     featured = await listProperties({ limit: 3 });
-  } catch {
+  } catch (error) {
+    console.error(error);
     featured = [];
   }
 
@@ -25,8 +30,8 @@ export default async function HomePage() {
       {/* HERO */}
       <section className="relative overflow-hidden">
         <div className="pointer-events-none absolute -right-40 -top-40 h-[520px] w-[520px] rounded-full bg-gold/15 blur-3xl" />
-        <div className="container-x relative grid gap-12 py-20 lg:grid-cols-[1.15fr_0.85fr] lg:py-28">
-          <div className="animate-fade-up">
+        <div className="container-x relative grid gap-12 py-20 lg:grid-cols-[1.05fr_0.95fr] lg:items-stretch lg:py-28">
+          <div className="animate-fade-up flex flex-col justify-center">
             <p className="eyebrow">Cabinet M Conseils — Plus de 13 ans d&apos;expérience</p>
             <h1 className="text-[42px] leading-[1.05] text-ink sm:text-[58px]">
               La rigueur du droit,
@@ -53,20 +58,37 @@ export default async function HomePage() {
                 Découvrir nos expertises
               </Link>
             </div>
+
+            <dl className="mt-10 grid grid-cols-3 gap-4">
+              {[
+                { k: "13+", v: "Années d'expérience" },
+                { k: "05", v: "Domaines d'expertise" },
+                { k: "100%", v: "Accompagnement personnalisé" },
+              ].map((stat) => (
+                <div key={stat.k} className="card p-5">
+                  <dt className="font-display text-3xl font-bold text-gold">{stat.k}</dt>
+                  <dd className="mt-1 text-xs uppercase tracking-widest text-ink-faint">{stat.v}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
 
-          <dl className="grid grid-cols-3 gap-4 self-end lg:grid-cols-1">
-            {[
-              { k: "13+", v: "Années d'expérience" },
-              { k: "05", v: "Domaines d'expertise" },
-              { k: "100%", v: "Accompagnement personnalisé" },
-            ].map((stat) => (
-              <div key={stat.k} className="card p-5">
-                <dt className="font-display text-3xl font-bold text-gold">{stat.k}</dt>
-                <dd className="mt-1 text-xs uppercase tracking-widest text-ink-faint">{stat.v}</dd>
-              </div>
-            ))}
-          </dl>
+          {/* IMAGE HERO — grande, animée, bien cadrée */}
+          <div className="animate-fade-up relative" style={{ animationDelay: "150ms" }}>
+            <div className="pointer-events-none absolute -inset-4 rounded-2xl bg-gradient-to-br from-gold/25 via-transparent to-wine/20 blur-2xl" />
+            <div className="group relative h-[420px] w-full overflow-hidden rounded-2xl border border-line shadow-card sm:h-[520px] lg:h-full lg:min-h-[560px]">
+              <Image
+                src="/images/image6.jpg"
+                alt="Cabinet M Conseils"
+                fill
+                sizes="(max-width: 1024px) 100vw, 45vw"
+                className="object-cover object-center transition-transform duration-[1400ms] ease-out group-hover:scale-105"
+                priority
+              />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-dark/40 via-transparent to-transparent" />
+              <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-gold via-gold-light to-wine" />
+            </div>
+          </div>
         </div>
       </section>
 
@@ -84,16 +106,27 @@ export default async function HomePage() {
 
           <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {services.map((service) => (
-              <article key={service.id} className="card flex flex-col p-7">
-                <span className="font-display text-2xl font-bold text-gold">{service.num}</span>
-                <h3 className="mt-3 text-xl text-ink">{service.title}</h3>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-ink-dim">{service.short}</p>
-                <Link
-                  href={`/services#${service.id}`}
-                  className="mt-5 text-sm font-bold text-gold hover:underline"
-                >
-                  Découvrir ce service →
-                </Link>
+              <article key={service.id} className="card flex flex-col overflow-hidden p-0">
+                <div className="relative aspect-[16/10] w-full overflow-hidden">
+                  <Image
+                    src={service.image}
+                    alt={service.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover"
+                  />
+                </div>
+                <div className="flex flex-1 flex-col p-7">
+                  <span className="font-display text-2xl font-bold text-gold">{service.num}</span>
+                  <h3 className="mt-3 text-xl text-ink">{service.title}</h3>
+                  <p className="mt-3 flex-1 text-sm leading-relaxed text-ink-dim">{service.short}</p>
+                  <Link
+                    href={`/services#${service.id}`}
+                    className="mt-5 text-sm font-bold text-gold hover:underline"
+                  >
+                    Découvrir ce service →
+                  </Link>
+                </div>
               </article>
             ))}
           </div>
@@ -115,8 +148,8 @@ export default async function HomePage() {
 
           {featured.length ? (
             <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {featured.map((property) => (
-                <PropertyCard key={property.id} property={property} />
+              {featured.map((property, index) => (
+                <PropertyCard key={property.id} property={property} index={index} />
               ))}
             </div>
           ) : (
@@ -167,14 +200,19 @@ export default async function HomePage() {
       <section className="py-20">
         <div className="container-x">
           <div className="card overflow-hidden bg-dark p-10 text-on-dark sm:p-14">
-            <p className="eyebrow !text-gold-light">Parlons de votre dossier</p>
+            <p className="eyebrow !text-gold-light">
+              Parlons de votre dossier
+            </p>
+
             <h2 className="max-w-2xl text-3xl text-on-dark sm:text-[38px]">
               Une question ? Un dossier à sécuriser ? Écrivez-nous.
             </h2>
+
             <p className="mt-4 max-w-2xl text-on-dark-dim">
               Notre équipe vous répond rapidement pour comprendre votre besoin et vous orienter vers
               la meilleure solution — sans engagement de votre part.
             </p>
+
             <div className="mt-8 flex flex-wrap gap-3">
               <a
                 href={waLink("Bonjour Cabinet M Conseils, je souhaite obtenir des renseignements.")}
@@ -184,7 +222,11 @@ export default async function HomePage() {
               >
                 Écrire sur WhatsApp
               </a>
-              <Link href="/contact" className="btn border border-white/25 text-on-dark hover:bg-white/10">
+
+              <Link
+                href="/contact"
+                className="btn border border-white/25 text-on-dark hover:bg-white/10"
+              >
                 Formulaire de contact
               </Link>
             </div>

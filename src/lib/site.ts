@@ -41,8 +41,7 @@ export const services = [
       "Baux, statuts de société, actes divers",
       "Relecture et sécurisation de documents existants",
     ],
-    image:
-      "https://images.unsplash.com/photo-1758518731462-d091b0b4ed0d?q=80&w=1200&auto=format&fit=crop",
+    image: "/images/image1.jpeg",
     wa: "Bonjour Cabinet M Conseils, je souhaite être accompagné(e) pour la rédaction d'un contrat / acte juridique. Pouvez-vous m'en dire plus ?",
   },
   {
@@ -60,8 +59,7 @@ export const services = [
       "Mise en demeure et procédures judiciaires si nécessaire",
       "Suivi rigoureux jusqu'au règlement du dossier",
     ],
-    image:
-      "https://images.unsplash.com/photo-1710492341412-8b3aee7e70a6?q=80&w=1200&auto=format&fit=crop",
+    image: "/images/image2.jpeg",
     wa: "Bonjour Cabinet M Conseils, j'ai besoin d'aide pour le recouvrement d'une créance. Pouvez-vous m'accompagner ?",
   },
   {
@@ -79,8 +77,7 @@ export const services = [
       "Accompagnement à la création d'entreprise",
       "Assistance en cas de litige",
     ],
-    image:
-      "https://images.unsplash.com/photo-1459499362902-55a20553e082?q=80&w=1200&auto=format&fit=crop",
+    image: "/images/image3.jpeg",
     wa: "Bonjour Cabinet M Conseils, je souhaite un conseil et une assistance juridique. Pouvez-vous m'accompagner ?",
   },
   {
@@ -98,8 +95,7 @@ export const services = [
       "Rédaction et sécurisation des actes de vente",
       "Gestion locative et suivi transparent",
     ],
-    image:
-      "https://images.unsplash.com/photo-1735547876935-7be80eae1c88?q=80&w=1200&auto=format&fit=crop",
+    image: "/images/image4.jpeg",
     wa: "Bonjour Cabinet M Conseils, j'ai un projet de vente/achat ou de gestion d'un bien immobilier. Pouvez-vous m'accompagner ?",
   },
   {
@@ -117,8 +113,7 @@ export const services = [
       "Notes d'information claires et accessibles",
       "Alertes sur les évolutions qui vous concernent",
     ],
-    image:
-      "https://images.unsplash.com/photo-1666867540898-aaa1993ffabc?q=80&w=1200&auto=format&fit=crop",
+    image: "/images/image5.jpeg",
     wa: "Bonjour Cabinet M Conseils, je souhaite recevoir des informations juridiques utiles à ma situation.",
   },
 ];

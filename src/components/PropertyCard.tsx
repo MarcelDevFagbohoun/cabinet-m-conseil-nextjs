@@ -10,28 +10,40 @@ const statusStyles: Record<string, string> = {
   loue: "bg-neutral-200 text-neutral-700",
 };
 
-export default function PropertyCard({ property }: { property: Property }) {
+// Images de secours utilisées quand une propriété n'a pas de cover_image
+const FALLBACK_IMAGES = [
+  "/images/image1.jpeg",
+  "/images/image2.jpeg",
+  "/images/image3.jpeg",
+  "/images/image4.jpeg",
+  "/images/image5.jpeg",
+];
+
+export default function PropertyCard({
+  property,
+  index = 0,
+}: {
+  property: Property;
+  index?: number;
+}) {
   const typeLabel =
     PROPERTY_TYPES.find((t) => t.value === property.type)?.label ?? property.type;
   const area = formatArea(property.area_sqm);
+
+  const imageSrc =
+    property.cover_image ?? FALLBACK_IMAGES[index % FALLBACK_IMAGES.length];
 
   return (
     <article className="card group overflow-hidden transition duration-300 hover:-translate-y-1 hover:shadow-raise">
       <Link href={`/biens-immobiliers/${property.slug}`} className="block">
         <div className="relative aspect-[4/3] overflow-hidden bg-bg-alt">
-          {property.cover_image ? (
-            <Image
-              src={property.cover_image}
-              alt={property.title}
-              fill
-              sizes="(max-width: 768px) 100vw, 33vw"
-              className="object-cover transition duration-700 group-hover:scale-105"
-            />
-          ) : (
-            <div className="grid h-full place-items-center text-sm text-ink-faint">
-              Photo à venir
-            </div>
-          )}
+          <Image
+            src={imageSrc}
+            alt={property.title}
+            fill
+            sizes="(max-width: 768px) 100vw, 33vw"
+            className="object-cover transition duration-700 group-hover:scale-105"
+          />
           <span className={`badge absolute left-4 top-4 ${statusStyles[property.status] ?? ""}`}>
             {property.status}
           </span>
