@@ -1,5 +1,6 @@
 -- Jeu de données de démonstration (facultatif).
 -- À exécuter APRÈS schema.sql et après la création d'un compte admin.
+USE `cabinet_m_conseil`;
 
 INSERT INTO `properties`
  (slug, title, type, transaction, status, price, area_sqm, city, district,

@@ -3,6 +3,9 @@
 --  Encodage utf8mb4, contraintes FK, index de recherche.
 -- =====================================================================
 
+CREATE DATABASE IF NOT EXISTS `cabinet_m_conseil`
+  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE `cabinet_m_conseil`;
 
 -- ---------------------------------------------------------------------
 -- Comptes administrateurs (mot de passe haché bcrypt, jamais en clair)
@@ -64,6 +67,7 @@ CREATE TABLE IF NOT EXISTS `properties` (
   UNIQUE KEY `uq_property_slug` (`slug`),
   KEY `idx_property_filters` (`is_published`,`type`,`transaction`,`status`),
   KEY `idx_property_city` (`city`),
+  FULLTEXT KEY `ft_property_search` (`title`,`excerpt`,`description`),
   CONSTRAINT `fk_property_author` FOREIGN KEY (`created_by`)
     REFERENCES `admin_users`(`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -118,6 +122,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_post_slug` (`slug`),
   KEY `idx_post_pub` (`is_published`,`published_at`),
+  FULLTEXT KEY `ft_post_search` (`title`,`excerpt`,`content`),
   CONSTRAINT `fk_post_author` FOREIGN KEY (`created_by`)
     REFERENCES `admin_users`(`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
