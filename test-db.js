@@ -35,6 +35,9 @@ async function testConnection() {
       "📂 Bases visibles :",
       dbs.map((d) => d.Database)
     );
+
+    const [tables] = await pool.query("SHOW TABLES");
+    console.log("📋 Tables dans", process.env.DB_NAME, ":", tables);
   } finally {
     await pool.end();
   }
