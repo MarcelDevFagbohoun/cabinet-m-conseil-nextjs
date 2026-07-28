@@ -21,7 +21,7 @@ type AdminRow = {
 
 export async function POST(request: Request) {
   const ip = clientIp(request);
-  if (!rateLimit(`login:${ip}`, 8, 10 * 60 * 1000).allowed) {
+if (!rateLimit(`login:${ip}`, 30, 2 * 60 * 1000).allowed) {
     return NextResponse.json(
       { error: "Trop de tentatives. Réessayez dans quelques minutes." },
       { status: 429 }
