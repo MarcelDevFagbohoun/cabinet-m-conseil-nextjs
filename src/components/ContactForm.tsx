@@ -14,10 +14,11 @@ export default function ContactForm({
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const form = event.currentTarget; // capturé avant tout await
     setStatus("sending");
     setError(null);
 
-    const formData = new FormData(event.currentTarget);
+    const formData = new FormData(form);
     const payload = Object.fromEntries(formData.entries());
 
     try {
@@ -29,7 +30,7 @@ export default function ContactForm({
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Envoi impossible.");
       setStatus("sent");
-      event.currentTarget.reset();
+      form.reset();
     } catch (err) {
       setStatus("error");
       setError(err instanceof Error ? err.message : "Envoi impossible.");
