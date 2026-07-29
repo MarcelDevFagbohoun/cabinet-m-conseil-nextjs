@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server";
-import { randomUUID } from "node:crypto";
-import { mkdir, writeFile } from "node:fs/promises";
-import path from "node:path";
+import { put } from "@vercel/blob";
 import { requireAdmin } from "@/lib/api";
 
 export const runtime = "nodejs";
@@ -39,14 +37,15 @@ export async function POST(request: Request) {
   }
 
   // Nom de fichier généré côté serveur : le nom d'origine n'est jamais utilisé.
-  const filename = `${randomUUID()}${extension}`;
-  const directory = path.join(process.cwd(), "public", "uploads");
-  await mkdir(directory, { recursive: true });
-  await writeFile(path.join(directory, filename), Buffer.from(await file.arrayBuffer()));
+  const filename = `uploads/${crypto.randomUUID()}${extension}`;
+
+  const blob = await put(filename, file, {
+    access: "public",
+  });
 
   return NextResponse.json({
     ok: true,
-    url: `/uploads/${filename}`,
+    url: blob.url,
     kind: file.type === "application/pdf" ? "document" : "image",
   });
 }
