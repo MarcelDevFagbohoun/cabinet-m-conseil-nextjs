@@ -137,6 +137,14 @@
   }
 }
 
+/* Panneau de filtres : repliable sur mobile, toujours déployé à partir de sm
+   (on force l'affichage même si le <details> a été refermé sur petit écran). */
+@media (min-width: 640px) {
+  .filters-panel {
+    display: grid !important;
+  }
+}
+
 /* Texture grain discrète sur le fond crème */
 .grain::before {
   content: "";

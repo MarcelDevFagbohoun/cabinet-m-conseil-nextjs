@@ -147,7 +147,7 @@ export default async function HomePage() {
           </div>
 
           {featured.length ? (
-            <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-10 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 lg:gap-6">
               {featured.map((property, index) => (
                 <PropertyCard key={property.id} property={property} index={index} />
               ))}
