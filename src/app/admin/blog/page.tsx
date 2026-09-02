@@ -46,7 +46,7 @@ export default async function AdminBlogPage() {
                 <td className="p-4 font-semibold text-ink">{post.title}</td>
                 <td className="p-4 text-ink-dim">{post.category}</td>
                 <td className="p-4 text-ink-dim">
-                  {post.published_at ? formatDate(post.published_at) : "—"}
+                  {post.published_at ? formatDate(post.published_at) : "Non publié"}
                 </td>
                 <td className="p-4">
                   <span

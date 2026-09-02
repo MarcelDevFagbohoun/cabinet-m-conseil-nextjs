@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     "Cabinet M Conseils, plus de 13 ans au service des particuliers, entreprises et institutions au Bénin : rédaction d'actes, recouvrement, conseil juridique et immobilier.",
   alternates: { canonical: "/a-propos" },
   openGraph: {
-    title: "À propos — Cabinet M Conseils",
+    title: "À propos | Cabinet M Conseils",
     description:
       "Un cabinet à taille humaine, une exigence de grand cabinet. Plus de 13 ans d'accompagnement juridique et immobilier au Bénin.",
     url: "/a-propos",
@@ -60,7 +60,7 @@ export default function AProposPage() {
             {
               k: "05",
               t: "Domaines d'intervention",
-              d: "Rédaction d'actes, recouvrement, conseil juridique, immobilier et veille — sous un même toit.",
+              d: "Rédaction d'actes, recouvrement, conseil juridique, immobilier et veille, sous un même toit.",
             },
             {
               k: "01",

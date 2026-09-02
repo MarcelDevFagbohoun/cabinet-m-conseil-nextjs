@@ -3,29 +3,38 @@
 @tailwind utilities;
 
 :root {
-  /* Palette de la marque, exprimée en triplets RVB pour permettre les
-     modificateurs d'opacité Tailwind (ex. bg-gold/15). */
-  --bg: 250 243 230;
-  --bg-alt: 241 230 210;
+  /* Palette "Terre de Conseil" (DESIGN.md), exprimée en triplets RVB pour
+     permettre les modificateurs d'opacité Tailwind (ex. bg-gold/15). */
+  --bg: 251 248 252;
+  --bg-alt: 240 237 241;
   --bg-raised: 255 255 255;
-  --bg-raised-2: 255 251 243;
+  --bg-raised-2: 245 243 246;
 
-  --gold: 222 106 45;
-  --gold-light: 240 149 92;
-  --gold-deep: 184 78 27;
+  --gold: 141 75 0;
+  --gold-light: 177 95 0;
+  --gold-deep: 110 57 0;
 
-  --ink: 34 26 18;
-  --ink-dim: 107 93 79;
-  --ink-faint: 140 129 113;
+  --ink: 27 27 30;
+  --ink-dim: 85 67 54;
+  --ink-faint: 136 115 100;
 
-  --wine: 166 67 46;
+  --wine: 186 26 26;
 
-  --dark: 36 27 18;
-  --on-dark: 247 241 230;
-  --on-dark-dim: 217 203 184;
+  --dark: 48 48 51;
+  --on-dark: 243 240 244;
+  --on-dark-dim: 202 198 191;
 
-  --line: rgba(34, 26, 18, 0.1);
-  --line-strong: rgba(34, 26, 18, 0.18);
+  --secondary: 96 94 89;
+  --secondary-container: 230 226 219;
+  --on-secondary-container: 102 100 95;
+  --tertiary: 144 72 33;
+  --tertiary-container: 175 95 54;
+  --error-container: 255 218 214;
+  --on-error-container: 147 0 10;
+  --outline-variant: 219 194 176;
+
+  --line: rgba(85, 67, 54, 0.12);
+  --line-strong: rgba(85, 67, 54, 0.22);
 }
 
 @layer base {

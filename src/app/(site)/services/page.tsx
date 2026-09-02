@@ -4,10 +4,10 @@ import ServiceTabs from "@/components/ServiceTabs";
 export const metadata: Metadata = {
   title: "Nos services juridiques et immobiliers",
   description:
-    "Rédaction de contrats, recouvrement de créances, conseil juridique, vente et gestion de biens immobiliers, veille juridique — découvrez les cinq expertises du Cabinet M Conseils.",
+    "Rédaction de contrats, recouvrement de créances, conseil juridique, vente et gestion de biens immobiliers, veille juridique : découvrez les cinq expertises du Cabinet M Conseils.",
   alternates: { canonical: "/services" },
   openGraph: {
-    title: "Nos services — Cabinet M Conseils",
+    title: "Nos services | Cabinet M Conseils",
     description:
       "Cinq expertises au service de votre sécurité juridique : contrats, recouvrement, conseil, immobilier, information juridique.",
     url: "/services",
@@ -24,7 +24,7 @@ export default function ServicesPage() {
         </h1>
         <p className="mt-4 max-w-2xl text-ink-dim">
           Sélectionnez l&apos;expertise qui correspond à votre besoin pour en découvrir le détail,
-          puis contactez-nous en un clic — le message se prépare automatiquement pour vous.
+          puis contactez-nous en un clic : le message se prépare automatiquement pour vous.
         </p>
 
         <div className="mt-12">

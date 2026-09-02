@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
-import { Manrope, Playfair_Display } from "next/font/google";
+import { Libre_Caslon_Text, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { site } from "@/lib/site";
 
-const display = Playfair_Display({
+const display = Libre_Caslon_Text({
   subsets: ["latin"],
-  weight: ["600", "700", "800"],
+  weight: ["400", "700"],
   variable: "--font-display",
   display: "swap",
 });
 
-const body = Manrope({
+const body = Plus_Jakarta_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
   variable: "--font-body",
@@ -20,8 +20,8 @@ const body = Manrope({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} — Rédaction d'actes, recouvrement, conseil juridique & immobilier`,
-    template: `%s — ${site.name}`,
+    default: `${site.name} | Rédaction d'actes, recouvrement, conseil juridique & immobilier`,
+    template: `%s | ${site.name}`,
   },
   description: site.description,
   keywords: [
@@ -37,13 +37,13 @@ export const metadata: Metadata = {
     type: "website",
     locale: "fr_FR",
     siteName: site.name,
-    title: `${site.name} — Conseils juridiques & immobilier`,
+    title: `${site.name} | Conseils juridiques & immobilier`,
     description: site.description,
     url: "/",
   },
   twitter: {
     card: "summary_large_image",
-    title: `${site.name} — Conseils juridiques & immobilier`,
+    title: `${site.name} | Conseils juridiques & immobilier`,
     description: site.description,
   },
   robots: { index: true, follow: true },

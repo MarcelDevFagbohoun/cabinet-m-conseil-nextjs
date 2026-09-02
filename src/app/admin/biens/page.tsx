@@ -51,7 +51,7 @@ export default async function AdminPropertiesPage() {
                     ? "Sur demande"
                     : formatPrice(property.price, property.price_unit)}
                 </td>
-                <td className="p-4 text-ink-dim">{property.city ?? "—"}</td>
+                <td className="p-4 text-ink-dim">{property.city ?? "N/A"}</td>
                 <td className="p-4">
                   <span
                     className={`badge ${

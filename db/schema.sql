@@ -1,5 +1,5 @@
 -- =====================================================================
---  Cabinet M Conseils — schéma MySQL 8
+--  Cabinet M Conseils : schéma MySQL 8
 --  Encodage utf8mb4, contraintes FK, index de recherche.
 -- =====================================================================
 

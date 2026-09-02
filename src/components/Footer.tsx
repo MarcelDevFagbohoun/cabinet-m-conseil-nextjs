@@ -10,7 +10,7 @@ export default function Footer() {
             Cabinet <em className="not-italic text-gold-light">M</em> Conseils
           </p>
           <p className="mt-3 text-sm leading-relaxed">
-            Rédaction d&apos;actes, recouvrement, conseil juridique et immobilier — à vos côtés
+            Rédaction d&apos;actes, recouvrement, conseil juridique et immobilier, à vos côtés
             depuis plus de 13 ans, à Cotonou et partout au Bénin.
           </p>
         </div>
@@ -64,7 +64,7 @@ export default function Footer() {
 
       <div className="border-t border-white/10">
         <div className="container-x flex flex-col gap-2 py-5 text-xs sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} Cabinet M Conseils — Tous droits réservés.</p>
+          <p>© {new Date().getFullYear()} Cabinet M Conseils. Tous droits réservés.</p>
           <p>{site.city}</p>
         </div>
       </div>

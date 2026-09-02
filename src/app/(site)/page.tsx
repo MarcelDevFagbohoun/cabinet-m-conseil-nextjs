@@ -32,7 +32,7 @@ export default async function HomePage() {
         <div className="pointer-events-none absolute -right-40 -top-40 h-[520px] w-[520px] rounded-full bg-gold/15 blur-3xl" />
         <div className="container-x relative grid gap-12 py-20 lg:grid-cols-[1.05fr_0.95fr] lg:items-stretch lg:py-28">
           <div className="animate-fade-up flex flex-col justify-center">
-            <p className="eyebrow">Cabinet M Conseils — Plus de 13 ans d&apos;expérience</p>
+            <p className="eyebrow">Cabinet M Conseils, plus de 13 ans d&apos;expérience</p>
             <h1 className="text-[42px] leading-[1.05] text-ink sm:text-[58px]">
               La rigueur du droit,
               <br />
@@ -42,7 +42,7 @@ export default async function HomePage() {
             </h1>
             <p className="mt-6 max-w-2xl text-[17px] leading-relaxed text-ink-dim">
               Depuis plus de 13 ans, nous rédigeons, sécurisons et défendons les engagements les
-              plus importants de nos clients — particuliers, entreprises et institutions — avec la
+              plus importants de nos clients (particuliers, entreprises et institutions) avec la
               même exigence pour chaque dossier.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
@@ -73,7 +73,7 @@ export default async function HomePage() {
             </dl>
           </div>
 
-          {/* IMAGE HERO — grande, animée, bien cadrée */}
+          {/* IMAGE HERO : grande, animée, bien cadrée */}
           <div className="animate-fade-up relative" style={{ animationDelay: "150ms" }}>
             <div className="pointer-events-none absolute -inset-4 rounded-2xl bg-gradient-to-br from-gold/25 via-transparent to-wine/20 blur-2xl" />
             <div className="group relative h-[420px] w-full overflow-hidden rounded-2xl border border-line shadow-card sm:h-[520px] lg:h-full lg:min-h-[560px]">
@@ -210,7 +210,7 @@ export default async function HomePage() {
 
             <p className="mt-4 max-w-2xl text-on-dark-dim">
               Notre équipe vous répond rapidement pour comprendre votre besoin et vous orienter vers
-              la meilleure solution — sans engagement de votre part.
+              la meilleure solution, sans engagement de votre part.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">

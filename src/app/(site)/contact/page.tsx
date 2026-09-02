@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     "Contactez le Cabinet M Conseils à Cotonou : WhatsApp, téléphone ou formulaire. Réponse rapide pour vos besoins juridiques et immobiliers au Bénin.",
   alternates: { canonical: "/contact" },
   openGraph: {
-    title: "Contact — Cabinet M Conseils",
+    title: "Contact | Cabinet M Conseils",
     description: "Écrivez-nous : notre équipe vous répond rapidement, sans engagement.",
     url: "/contact",
   },

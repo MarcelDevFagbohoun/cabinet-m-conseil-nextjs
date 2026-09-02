@@ -21,22 +21,33 @@ const config: Config = {
         dark: "rgb(var(--dark) / <alpha-value>)",
         "on-dark": "rgb(var(--on-dark) / <alpha-value>)",
         "on-dark-dim": "rgb(var(--on-dark-dim) / <alpha-value>)",
+        secondary: "rgb(var(--secondary) / <alpha-value>)",
+        "secondary-container": "rgb(var(--secondary-container) / <alpha-value>)",
+        "on-secondary-container": "rgb(var(--on-secondary-container) / <alpha-value>)",
+        tertiary: "rgb(var(--tertiary) / <alpha-value>)",
+        "tertiary-container": "rgb(var(--tertiary-container) / <alpha-value>)",
+        "error-container": "rgb(var(--error-container) / <alpha-value>)",
+        "on-error-container": "rgb(var(--on-error-container) / <alpha-value>)",
+        "outline-variant": "rgb(var(--outline-variant) / <alpha-value>)",
       },
       fontFamily: {
         display: ["var(--font-display)", "Georgia", "serif"],
         body: ["var(--font-body)", "system-ui", "sans-serif"],
       },
       borderRadius: {
-        sm: "6px",
-        md: "14px",
-        lg: "28px",
+        sm: "4px",
+        DEFAULT: "8px",
+        md: "12px",
+        lg: "16px",
+        xl: "24px",
+        full: "9999px",
       },
       maxWidth: {
         container: "1180px",
       },
       boxShadow: {
-        card: "0 18px 50px -30px rgba(34,26,18,0.45)",
-        raise: "0 28px 70px -40px rgba(34,26,18,0.6)",
+        card: "0 10px 30px -6px rgba(141,75,0,0.10)",
+        raise: "0 22px 48px -14px rgba(141,75,0,0.22)",
       },
       keyframes: {
         "fade-up": {

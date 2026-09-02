@@ -30,7 +30,7 @@ export async function generateMetadata({
   const description =
     property.meta_description ||
     property.excerpt ||
-    `${property.title} — bien vérifié par le Cabinet M Conseils.`;
+    `${property.title} : bien vérifié par le Cabinet M Conseils.`;
   const image = property.cover_image ? `${site.url}${property.cover_image}` : undefined;
 
   return {

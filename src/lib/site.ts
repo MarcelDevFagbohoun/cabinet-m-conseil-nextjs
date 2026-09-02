@@ -34,7 +34,7 @@ export const services = [
       "Un contrat mal rédigé coûte toujours plus cher qu'un contrat bien pensé. Nous rédigeons vos contrats, baux, statuts et actes sur mesure, en anticipant les risques avant qu'ils ne deviennent des litiges.",
     paragraphs: [
       "Un contrat mal rédigé coûte toujours plus cher qu'un contrat bien pensé. Nous rédigeons vos contrats commerciaux, baux, statuts, conventions et actes juridiques sur mesure, en anticipant les risques avant qu'ils ne deviennent des litiges.",
-      "Chaque clause est pesée, chaque engagement sécurisé — pour que le document que vous signez vous protège réellement.",
+      "Chaque clause est pesée, chaque engagement sécurisé, pour que le document que vous signez vous protège réellement.",
     ],
     points: [
       "Contrats commerciaux et conventions sur mesure",
@@ -49,7 +49,7 @@ export const services = [
     num: "02",
     title: "Recouvrement des créances",
     short:
-      "Un impayé est aussi une question de relation. Nous privilégions d'abord le dialogue et la négociation amiable, et n'engageons la voie judiciaire que si nécessaire — avec fermeté et diplomatie.",
+      "Un impayé est aussi une question de relation. Nous privilégions d'abord le dialogue et la négociation amiable, et n'engageons la voie judiciaire que si nécessaire, avec fermeté et diplomatie.",
     paragraphs: [
       "Un impayé n'est jamais qu'une question d'argent, c'est aussi une question de relation. Nous privilégions d'abord le dialogue et la négociation amiable, et n'engageons la voie judiciaire que lorsque c'est nécessaire.",
       "Notre objectif : recouvrer ce qui vous est dû sans rompre inutilement ce qui peut encore l'être.",
@@ -69,7 +69,7 @@ export const services = [
     short:
       "Avant de décider, il faut comprendre. Nous vous accompagnons en amont de vos démarches avec des réponses claires, sans jargon inutile, pour que chaque décision soit prise en toute confiance.",
     paragraphs: [
-      "Avant de décider, il faut comprendre. Nous vous accompagnons en amont de vos démarches — création d'entreprise, litiges, questions du quotidien — avec des réponses claires, sans jargon inutile.",
+      "Avant de décider, il faut comprendre. Nous vous accompagnons en amont de vos démarches (création d'entreprise, litiges, questions du quotidien) avec des réponses claires, sans jargon inutile.",
       "Pour que chaque décision que vous prenez soit prise en toute confiance.",
     ],
     points: [
@@ -85,7 +85,7 @@ export const services = [
     num: "04",
     title: "Vente, achat et gestion de biens immobiliers",
     short:
-      "Un bien immobilier engage souvent toute une vie d'économies. Nous vous accompagnons à chaque étape — vérifications, négociation, actes, gestion locative — avec la rigueur que mérite un tel projet.",
+      "Un bien immobilier engage souvent toute une vie d'économies. Nous vous accompagnons à chaque étape (vérifications, négociation, actes, gestion locative) avec la rigueur que mérite un tel projet.",
     paragraphs: [
       "Un bien immobilier engage souvent toute une vie d'économies. Nous vérifions les titres, sécurisons la négociation, rédigeons les actes et assurons la gestion locative de vos biens.",
       "Chaque bien que nous présentons a d'abord été vérifié par nos équipes : titre foncier, bornage, absence de litige.",

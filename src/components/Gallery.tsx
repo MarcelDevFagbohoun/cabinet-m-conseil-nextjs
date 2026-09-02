@@ -44,7 +44,7 @@ export default function Gallery({
             >
               <Image
                 src={image.url}
-                alt={image.alt || `${title} — photo ${index + 1}`}
+                alt={image.alt || `${title}, photo ${index + 1}`}
                 fill
                 sizes="120px"
                 className="object-cover"

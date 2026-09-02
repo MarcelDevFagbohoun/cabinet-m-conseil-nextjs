@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     "Articles, veille et informations juridiques du Cabinet M Conseils : contrats, recouvrement, droit immobilier et actualités utiles au Bénin.",
   alternates: { canonical: "/blog" },
   openGraph: {
-    title: "Blog — Cabinet M Conseils",
+    title: "Blog | Cabinet M Conseils",
     description: "Veille juridique et conseils pratiques, expliqués simplement.",
     url: "/blog",
   },

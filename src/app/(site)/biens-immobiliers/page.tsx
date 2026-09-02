@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     "Parcelles, maisons et appartements vérifiés par le Cabinet M Conseils : photos, superficie, documents et titre foncier contrôlés avant publication.",
   alternates: { canonical: "/biens-immobiliers" },
   openGraph: {
-    title: "Biens immobiliers — Cabinet M Conseils",
+    title: "Biens immobiliers | Cabinet M Conseils",
     description:
       "Une sélection de parcelles et de maisons vérifiées juridiquement, à Cotonou et partout au Bénin.",
     url: "/biens-immobiliers",
