@@ -49,17 +49,39 @@ export default async function PostPage({ params }: { params: { slug: string } })
   const post = await getPostBySlug(params.slug).catch(() => null);
   if (!post) notFound();
 
-  const jsonLd = {
-    "@context": "https://schema.org",
+  const articleLd = {
     "@type": "BlogPosting",
     headline: post.title,
     description: post.excerpt ?? undefined,
     datePublished: post.published_at ?? post.created_at,
     dateModified: post.updated_at,
-    author: { "@type": "Organization", name: site.name },
-    publisher: { "@type": "Organization", name: site.name },
-    mainEntityOfPage: `${site.url}/blog/${post.slug}`,
+    inLanguage: "fr",
+    articleSection: post.category,
+    image: post.cover_image ? `${site.url}${post.cover_image}` : `${site.url}/opengraph-image`,
+    author: { "@type": "Organization", name: site.name, url: site.url },
+    publisher: {
+      "@type": "Organization",
+      name: site.name,
+      logo: { "@type": "ImageObject", url: `${site.url}/icon.png` },
+    },
+    mainEntityOfPage: { "@type": "WebPage", "@id": `${site.url}/blog/${post.slug}` },
   };
+
+  const breadcrumbLd = {
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Accueil", item: site.url },
+      { "@type": "ListItem", position: 2, name: "Blog", item: `${site.url}/blog` },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: post.title,
+        item: `${site.url}/blog/${post.slug}`,
+      },
+    ],
+  };
+
+  const jsonLd = { "@context": "https://schema.org", "@graph": [articleLd, breadcrumbLd] };
 
   return (
     <article className="py-12 sm:py-16">

@@ -2,7 +2,7 @@ export const site = {
   name: "Cabinet M Conseils",
   tagline: "Conseils juridiques & immobilier",
   description:
-    "Cabinet M Conseils : plus de 13 ans d'expérience en rédaction de contrats, recouvrement de créances, conseil juridique et gestion de biens immobiliers à Cotonou et partout au Bénin.",
+    "Rédaction de contrats, recouvrement de créances, conseil juridique et immobilier vérifié à Cotonou et partout au Bénin. Cabinet M Conseils, plus de 13 ans d'expérience.",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.cabinetmconseils.com",
   whatsapp: "2290195380006",
   whatsappDisplay: "+229 01 95 38 00 06",

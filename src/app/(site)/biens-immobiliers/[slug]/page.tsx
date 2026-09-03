@@ -69,13 +69,16 @@ export default async function PropertyPage({ params }: { params: { slug: string 
       ? [{ id: 0, property_id: property.id, url: property.cover_image, alt: property.title, position: 0 }]
       : [];
 
-  const jsonLd = {
-    "@context": "https://schema.org",
+  const listingLd = {
     "@type": "RealEstateListing",
     name: property.title,
     description: property.excerpt || property.description?.slice(0, 300),
     url: `${site.url}/biens-immobiliers/${property.slug}`,
     image: images.map((image) => `${site.url}${image.url}`),
+    ...(property.area_sqm
+      ? { floorSize: { "@type": "QuantitativeValue", value: Number(property.area_sqm), unitCode: "MTK" } }
+      : {}),
+    ...(property.bedrooms ? { numberOfRooms: property.bedrooms } : {}),
     ...(property.price && !property.price_on_request
       ? {
           offers: {
@@ -95,6 +98,27 @@ export default async function PropertyPage({ params }: { params: { slug: string 
       addressCountry: "BJ",
     },
   };
+
+  const breadcrumbLd = {
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Accueil", item: site.url },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Biens immobiliers",
+        item: `${site.url}/biens-immobiliers`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: property.title,
+        item: `${site.url}/biens-immobiliers/${property.slug}`,
+      },
+    ],
+  };
+
+  const jsonLd = { "@context": "https://schema.org", "@graph": [listingLd, breadcrumbLd] };
 
   const specs = [
     { label: "Type", value: typeLabel },

@@ -5,13 +5,14 @@ import { site } from "@/lib/site";
 export const revalidate = 3600;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const now = new Date();
   const staticRoutes: MetadataRoute.Sitemap = [
-    { url: `${site.url}/`, changeFrequency: "weekly", priority: 1 },
-    { url: `${site.url}/services`, changeFrequency: "monthly", priority: 0.9 },
-    { url: `${site.url}/biens-immobiliers`, changeFrequency: "daily", priority: 0.9 },
-    { url: `${site.url}/blog`, changeFrequency: "weekly", priority: 0.7 },
-    { url: `${site.url}/a-propos`, changeFrequency: "yearly", priority: 0.6 },
-    { url: `${site.url}/contact`, changeFrequency: "yearly", priority: 0.6 },
+    { url: `${site.url}/`, lastModified: now, changeFrequency: "weekly", priority: 1 },
+    { url: `${site.url}/services`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${site.url}/biens-immobiliers`, lastModified: now, changeFrequency: "daily", priority: 0.9 },
+    { url: `${site.url}/blog`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
+    { url: `${site.url}/a-propos`, lastModified: now, changeFrequency: "yearly", priority: 0.6 },
+    { url: `${site.url}/contact`, lastModified: now, changeFrequency: "yearly", priority: 0.6 },
   ];
 
   try {
