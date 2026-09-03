@@ -17,9 +17,13 @@ function createPool() {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     waitForConnections: true,
-    connectionLimit: 10,
-    maxIdle: 5,
+    // Hébergement mutualisé (LWS) : quota de connexions concurrentes bas.
+    // Chaque instance serverless a son propre pool → on reste prudent.
+    connectionLimit: Number(process.env.DB_CONNECTION_LIMIT || 4),
+    maxIdle: 2,
+    idleTimeout: 30_000,
     enableKeepAlive: true,
+    connectTimeout: 10_000,
     charset: "utf8mb4_unicode_ci",
     timezone: "Z",
     dateStrings: false,
