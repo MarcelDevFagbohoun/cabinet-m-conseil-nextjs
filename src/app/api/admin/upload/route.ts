@@ -1,62 +1,45 @@
 import { NextResponse } from "next/server";
-import { put } from "@vercel/blob";
-import { requireAdmin } from "@/lib/api";
+import { handleUpload, type HandleUploadBody } from "@vercel/blob/client";
+import { getSession } from "@/lib/auth";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+// Upload direct navigateur → Vercel Blob : le fichier ne transite pas par
+// cette fonction (contourne la limite de 4,5 Mo des fonctions serverless).
+// Ici on ne fait que délivrer un jeton d'upload à un admin authentifié.
+const ALLOWED = ["image/jpeg", "image/png", "image/webp", "application/pdf"];
 const MAX_SIZE = 8 * 1024 * 1024; // 8 Mo
 
-// Types autorisés uniquement (photos + documents) : pas d'exécutable ni de SVG.
-const ALLOWED: Record<string, string> = {
-  "image/jpeg": ".jpg",
-  "image/png": ".png",
-  "image/webp": ".webp",
-  "application/pdf": ".pdf",
-};
-
-export async function POST(request: Request) {
-  const guard = await requireAdmin();
-  if (!guard.ok) return guard.response;
-
-  const formData = await request.formData().catch(() => null);
-  const file = formData?.get("file");
-
-  if (!(file instanceof File)) {
-    return NextResponse.json({ error: "Aucun fichier reçu." }, { status: 400 });
+export async function POST(request: Request): Promise<NextResponse> {
+  const body = (await request.json().catch(() => null)) as HandleUploadBody | null;
+  if (!body) {
+    return NextResponse.json({ error: "Requête invalide." }, { status: 400 });
   }
-  if (file.size > MAX_SIZE) {
-    return NextResponse.json({ error: "Fichier trop volumineux (8 Mo maximum)." }, { status: 413 });
-  }
-  const extension = ALLOWED[file.type];
-  if (!extension) {
-    return NextResponse.json(
-      { error: "Format non autorisé (JPG, PNG, WEBP ou PDF)." },
-      { status: 415 }
-    );
-  }
-
-  if (!process.env.BLOB_READ_WRITE_TOKEN) {
-    return NextResponse.json(
-      { error: "Stockage non configuré (BLOB_READ_WRITE_TOKEN manquant)." },
-      { status: 500 }
-    );
-  }
-
-  // Nom de fichier généré côté serveur : le nom d'origine n'est jamais utilisé.
-  const filename = `uploads/${crypto.randomUUID()}${extension}`;
 
   try {
-    const blob = await put(filename, file, { access: "public" });
-    return NextResponse.json({
-      ok: true,
-      url: blob.url,
-      kind: file.type === "application/pdf" ? "document" : "image",
+    const result = await handleUpload({
+      body,
+      request,
+      // Appelé lors de la demande de jeton (requête navigateur → porte le cookie admin).
+      onBeforeGenerateToken: async () => {
+        const session = await getSession();
+        if (!session) throw new Error("Non autorisé.");
+        return {
+          allowedContentTypes: ALLOWED,
+          maximumSizeInBytes: MAX_SIZE,
+          addRandomSuffix: false,
+        };
+      },
+      // Rappel serveur-à-serveur de Vercel Blob (signé). Rien à faire :
+      // l'URL finale est renvoyée au navigateur par le SDK.
+      onUploadCompleted: async () => {},
     });
-  } catch {
+    return NextResponse.json(result);
+  } catch (error) {
     return NextResponse.json(
-      { error: "Téléversement impossible. Réessayez." },
-      { status: 502 }
+      { error: error instanceof Error ? error.message : "Téléversement impossible." },
+      { status: 400 }
     );
   }
 }

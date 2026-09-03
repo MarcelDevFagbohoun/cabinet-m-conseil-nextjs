@@ -1,6 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import { upload } from "@vercel/blob/client";
+
+const EXT: Record<string, string> = {
+  "image/jpeg": "jpg",
+  "image/png": "png",
+  "image/webp": "webp",
+  "application/pdf": "pdf",
+};
+const MAX_SIZE = 8 * 1024 * 1024; // 8 Mo
 
 export default function Uploader({
   label,
@@ -20,20 +29,33 @@ export default function Uploader({
     setBusy(true);
     setError(null);
 
-    for (const file of files) {
-      const formData = new FormData();
-      formData.append("file", file);
-      const response = await fetch("/api/admin/upload", { method: "POST", body: formData });
-      const data = await response.json().catch(() => ({}));
-      if (!response.ok) {
-        setError(data.error || "Téléversement impossible.");
-        break;
-      }
-      onUploaded(data.url);
-    }
+    try {
+      for (const file of files) {
+        const ext = EXT[file.type];
+        if (!ext) {
+          setError(`${file.name} : format non autorisé (JPG, PNG, WEBP ou PDF).`);
+          break;
+        }
+        if (file.size > MAX_SIZE) {
+          setError(`${file.name} : trop volumineux (8 Mo maximum).`);
+          break;
+        }
 
-    setBusy(false);
-    event.target.value = "";
+        // Upload direct vers Vercel Blob ; /api/admin/upload ne fait que
+        // délivrer le jeton (admin authentifié).
+        const blob = await upload(`uploads/${crypto.randomUUID()}.${ext}`, file, {
+          access: "public",
+          handleUploadUrl: "/api/admin/upload",
+          contentType: file.type,
+        });
+        onUploaded(blob.url);
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Téléversement impossible.");
+    } finally {
+      setBusy(false);
+      event.target.value = "";
+    }
   }
 
   return (

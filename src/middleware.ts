@@ -21,7 +21,13 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  if (pathname.startsWith("/api/admin/") && !pathname.startsWith("/api/admin/login")) {
+  // /api/admin/login : authentifie lui-même.
+  // /api/admin/upload : gère son auth (jeton d'upload) et reçoit un rappel
+  //   serveur-à-serveur signé de Vercel Blob, sans cookie de session.
+  const selfGuarded =
+    pathname.startsWith("/api/admin/login") || pathname.startsWith("/api/admin/upload");
+
+  if (pathname.startsWith("/api/admin/") && !selfGuarded) {
     if (!valid) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
     return NextResponse.next();
   }
