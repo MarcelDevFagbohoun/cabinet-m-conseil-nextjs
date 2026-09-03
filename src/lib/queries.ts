@@ -46,10 +46,13 @@ export async function listProperties(filters: PropertyFilters = {}) {
     where.push("city = ?");
     params.push(filters.city);
   }
-  if (filters.q) {
-    where.push("(title LIKE ? OR excerpt LIKE ? OR city LIKE ? OR district LIKE ?)");
-    const like = `%${filters.q}%`;
-    params.push(like, like, like, like);
+  const q = filters.q?.trim();
+  if (q) {
+    where.push(
+      "(title LIKE ? OR excerpt LIKE ? OR description LIKE ? OR city LIKE ? OR district LIKE ?)"
+    );
+    const like = `%${q}%`;
+    params.push(like, like, like, like, like);
   }
 
   const limit = Math.min(Math.max(filters.limit ?? 24, 1), 60);
@@ -118,14 +121,28 @@ export async function listAllPropertySlugs() {
 
 /* ------------------------------ Blog ------------------------------ */
 
-export async function listPosts(options: { includeUnpublished?: boolean; limit?: number } = {}) {
+export async function listPosts(
+  options: { includeUnpublished?: boolean; limit?: number; offset?: number; q?: string } = {}
+) {
   const limit = Math.min(Math.max(options.limit ?? 30, 1), 60);
+  const offset = Math.max(options.offset ?? 0, 0);
+
+  const where: string[] = [];
+  const params: any[] = [];
+  if (!options.includeUnpublished) where.push("is_published = 1");
+  if (options.q) {
+    where.push("(title LIKE ? OR excerpt LIKE ? OR category LIKE ?)");
+    const like = `%${options.q}%`;
+    params.push(like, like, like);
+  }
+
   return query<Post>(
     `SELECT id, slug, title, category, excerpt, cover_image, is_published, published_at, created_at, updated_at, '' AS content, meta_title, meta_description
      FROM posts
-     ${options.includeUnpublished ? "" : "WHERE is_published = 1"}
+     ${where.length ? `WHERE ${where.join(" AND ")}` : ""}
      ORDER BY COALESCE(published_at, created_at) DESC
-     LIMIT ${limit}`
+     LIMIT ${limit} OFFSET ${offset}`,
+    params
   );
 }
 

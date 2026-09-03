@@ -252,7 +252,10 @@ export default function PropertyForm({ property }: { property?: PropertyFull }) 
                 </button>
                 <button
                   type="button"
-                  onClick={() => setImages((prev) => prev.filter((_, i) => i !== index))}
+                  onClick={() => {
+                    if (cover === image.url) setCover("");
+                    setImages((prev) => prev.filter((_, i) => i !== index));
+                  }}
                   className="font-bold text-wine"
                 >
                   Supprimer

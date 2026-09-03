@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { put } from "@vercel/blob";
+import { mkdir, writeFile } from "node:fs/promises";
+import path from "node:path";
 import { requireAdmin } from "@/lib/api";
 
 export const runtime = "nodejs";
@@ -14,6 +15,9 @@ const ALLOWED: Record<string, string> = {
   "image/webp": ".webp",
   "application/pdf": ".pdf",
 };
+
+// Dossier public servi tel quel par Next (`public/uploads/**` est ignoré par git).
+const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads");
 
 export async function POST(request: Request) {
   const guard = await requireAdmin();
@@ -37,15 +41,22 @@ export async function POST(request: Request) {
   }
 
   // Nom de fichier généré côté serveur : le nom d'origine n'est jamais utilisé.
-  const filename = `uploads/${crypto.randomUUID()}${extension}`;
+  const filename = `${crypto.randomUUID()}${extension}`;
+  const buffer = Buffer.from(await file.arrayBuffer());
 
-  const blob = await put(filename, file, {
-    access: "public",
-  });
+  try {
+    await mkdir(UPLOAD_DIR, { recursive: true });
+    await writeFile(path.join(UPLOAD_DIR, filename), buffer);
+  } catch {
+    return NextResponse.json(
+      { error: "Enregistrement du fichier impossible sur le serveur." },
+      { status: 500 }
+    );
+  }
 
   return NextResponse.json({
     ok: true,
-    url: blob.url,
+    url: `/uploads/${filename}`,
     kind: file.type === "application/pdf" ? "document" : "image",
   });
 }

@@ -33,15 +33,15 @@ export default async function AdminDashboard() {
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {[
-          { label: "Biens enregistrés", value: stats.properties },
-          { label: "Biens publiés", value: stats.publishedProperties },
-          { label: "Articles", value: stats.posts },
-          { label: "Messages non lus", value: stats.unreadMessages },
+          { label: "Biens enregistrés", value: stats.properties, href: "/admin/biens" },
+          { label: "Biens publiés", value: stats.publishedProperties, href: "/admin/biens" },
+          { label: "Articles", value: stats.posts, href: "/admin/blog" },
+          { label: "Messages non lus", value: stats.unreadMessages, href: "/admin/messages" },
         ].map((stat) => (
-          <div key={stat.label} className="card p-5">
+          <Link key={stat.label} href={stat.href} className="card p-5 transition hover:border-gold/40">
             <p className="font-display text-3xl font-bold text-gold">{stat.value}</p>
             <p className="mt-1 text-xs uppercase tracking-widest text-ink-faint">{stat.label}</p>
-          </div>
+          </Link>
         ))}
       </div>
 

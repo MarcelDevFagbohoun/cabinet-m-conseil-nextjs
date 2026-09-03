@@ -8,77 +8,123 @@ import { formatDate } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminBlogPage() {
+const PAGE_SIZE = 20;
+
+export default async function AdminBlogPage({
+  searchParams,
+}: {
+  searchParams: { q?: string; page?: string };
+}) {
   const session = await getSession();
   if (!session) redirect("/admin/login");
 
-  let posts: Awaited<ReturnType<typeof listPosts>> = [];
+  const q = (searchParams.q ?? "").trim();
+  const page = Math.max(Number(searchParams.page) || 1, 1);
+
+  let rows: Awaited<ReturnType<typeof listPosts>> = [];
   try {
-    posts = await listPosts({ includeUnpublished: true, limit: 60 });
+    rows = await listPosts({
+      includeUnpublished: true,
+      q: q || undefined,
+      limit: PAGE_SIZE + 1,
+      offset: (page - 1) * PAGE_SIZE,
+    });
   } catch {
-    posts = [];
+    rows = [];
   }
+
+  const hasNext = rows.length > PAGE_SIZE;
+  const posts = rows.slice(0, PAGE_SIZE);
+  const pageHref = (p: number) =>
+    `/admin/blog?${new URLSearchParams({ ...(q ? { q } : {}), page: String(p) })}`;
 
   return (
     <AdminShell userName={session.name}>
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl text-ink">Articles du blog</h1>
-          <p className="mt-1 text-sm text-ink-dim">{posts.length} article(s).</p>
-        </div>
-        <Link href="/admin/blog/nouveau" className="btn-gold">+ Écrire un article</Link>
+        <h1 className="text-2xl text-ink">Articles du blog</h1>
+        <Link href="/admin/blog/nouveau" className="btn-gold">
+          + Écrire un article
+        </Link>
       </div>
 
-      <div className="card mt-6 overflow-x-auto">
-        <table className="w-full min-w-[640px] text-left text-sm">
-          <thead className="border-b border-line text-xs uppercase tracking-widest text-ink-faint">
-            <tr>
-              <th className="p-4">Titre</th>
-              <th className="p-4">Catégorie</th>
-              <th className="p-4">Publication</th>
-              <th className="p-4">État</th>
-              <th className="p-4 text-right">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-line">
-            {posts.map((post) => (
-              <tr key={post.id}>
-                <td className="p-4 font-semibold text-ink">{post.title}</td>
-                <td className="p-4 text-ink-dim">{post.category}</td>
-                <td className="p-4 text-ink-dim">
-                  {post.published_at ? formatDate(post.published_at) : "Non publié"}
-                </td>
-                <td className="p-4">
-                  <span
-                    className={`badge ${
-                      post.is_published
-                        ? "bg-emerald-100 text-emerald-800"
-                        : "bg-neutral-200 text-neutral-700"
-                    }`}
-                  >
-                    {post.is_published ? "Publié" : "Brouillon"}
-                  </span>
-                </td>
-                <td className="p-4">
-                  <div className="flex items-center justify-end gap-4">
-                    <Link href={`/admin/blog/${post.id}`} className="text-xs font-bold text-gold hover:underline">
-                      Modifier
-                    </Link>
-                    <DeleteButton endpoint={`/api/admin/posts/${post.id}`} />
-                  </div>
-                </td>
-              </tr>
-            ))}
-            {posts.length === 0 && (
-              <tr>
-                <td colSpan={5} className="p-8 text-center text-ink-faint">
-                  Aucun article pour le moment.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+      <form method="get" className="mt-4 flex gap-2">
+        <input
+          name="q"
+          defaultValue={q}
+          placeholder="Rechercher un titre, une catégorie…"
+          className="field"
+        />
+        <button type="submit" className="btn-ghost !py-2 text-sm">
+          Rechercher
+        </button>
+        {q && (
+          <Link href="/admin/blog" className="btn-ghost !py-2 text-sm">
+            Réinitialiser
+          </Link>
+        )}
+      </form>
+
+      <div className="card mt-6 divide-y divide-line">
+        {posts.map((post) => (
+          <div
+            key={post.id}
+            className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between"
+          >
+            <div className="min-w-0">
+              <p className="font-semibold text-ink">{post.title}</p>
+              <p className="mt-0.5 text-xs text-ink-faint">
+                {post.category}
+                {" · "}
+                {post.published_at ? formatDate(post.published_at) : "Non publié"}
+              </p>
+            </div>
+            <div className="flex items-center gap-4 sm:shrink-0">
+              <span
+                className={`badge ${
+                  post.is_published
+                    ? "bg-emerald-100 text-emerald-800"
+                    : "bg-neutral-200 text-neutral-700"
+                }`}
+              >
+                {post.is_published ? "Publié" : "Brouillon"}
+              </span>
+              <Link
+                href={`/admin/blog/${post.id}`}
+                className="text-xs font-bold text-gold hover:underline"
+              >
+                Modifier
+              </Link>
+              <DeleteButton endpoint={`/api/admin/posts/${post.id}`} />
+            </div>
+          </div>
+        ))}
+
+        {posts.length === 0 && (
+          <p className="p-8 text-center text-ink-faint">
+            {q ? "Aucun article ne correspond à cette recherche." : "Aucun article pour le moment."}
+          </p>
+        )}
       </div>
+
+      {(page > 1 || hasNext) && (
+        <div className="mt-4 flex items-center justify-between text-sm">
+          {page > 1 ? (
+            <Link href={pageHref(page - 1)} className="btn-ghost !py-2">
+              ← Précédent
+            </Link>
+          ) : (
+            <span />
+          )}
+          <span className="text-ink-faint">Page {page}</span>
+          {hasNext ? (
+            <Link href={pageHref(page + 1)} className="btn-ghost !py-2">
+              Suivant →
+            </Link>
+          ) : (
+            <span />
+          )}
+        </div>
+      )}
     </AdminShell>
   );
 }
