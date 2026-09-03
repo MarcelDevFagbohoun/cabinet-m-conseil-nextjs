@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Uploader from "./Uploader";
 import type { PropertyFull } from "@/lib/types";
 import { DOC_TYPES, PROPERTY_STATUS, PROPERTY_TYPES } from "@/lib/utils";
@@ -10,10 +10,16 @@ import { DOC_TYPES, PROPERTY_STATUS, PROPERTY_TYPES } from "@/lib/utils";
 type ImageItem = { url: string; alt: string };
 type DocItem = { label: string; doc_type: string; url: string; is_public: boolean };
 
+// Brouillon local : uniquement pour la création (pas d'édition d'un bien existant).
+const DRAFT_KEY = "cmc:draft:property:new";
+
 export default function PropertyForm({ property }: { property?: PropertyFull }) {
   const router = useRouter();
+  const isNew = !property;
+  const formRef = useRef<HTMLFormElement>(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [restored, setRestored] = useState(false);
 
   const [cover, setCover] = useState(property?.cover_image ?? "");
   const [images, setImages] = useState<ImageItem[]>(
@@ -28,6 +34,84 @@ export default function PropertyForm({ property }: { property?: PropertyFull }) 
     })) ?? []
   );
   const [amenities, setAmenities] = useState((property?.amenities ?? []).join(", "));
+
+  function saveDraft() {
+    if (!isNew || !formRef.current) return;
+    const fields: Record<string, string> = {};
+    for (const [k, v] of new FormData(formRef.current).entries()) {
+      if (typeof v === "string") fields[k] = v;
+    }
+    try {
+      localStorage.setItem(
+        DRAFT_KEY,
+        JSON.stringify({ fields, images, documents, amenities, cover })
+      );
+    } catch {
+      /* mode privé / quota : on ignore */
+    }
+  }
+
+  function clearDraft() {
+    try {
+      localStorage.removeItem(DRAFT_KEY);
+    } catch {
+      /* ignore */
+    }
+  }
+
+  function discardDraft() {
+    clearDraft();
+    formRef.current?.reset();
+    setImages([]);
+    setDocuments([]);
+    setAmenities("");
+    setCover("");
+    setRestored(false);
+  }
+
+  // Restauration du brouillon au montage (création uniquement).
+  useEffect(() => {
+    if (!isNew) return;
+    let raw: string | null = null;
+    try {
+      raw = localStorage.getItem(DRAFT_KEY);
+    } catch {
+      return;
+    }
+    if (!raw) return;
+    try {
+      const draft = JSON.parse(raw) as {
+        fields?: Record<string, string>;
+        images?: ImageItem[];
+        documents?: DocItem[];
+        amenities?: string;
+        cover?: string;
+      };
+      const form = formRef.current;
+      if (form && draft.fields) {
+        for (const el of Array.from(form.elements)) {
+          const input = el as HTMLInputElement;
+          if (!input.name) continue;
+          if (input.type === "checkbox") input.checked = input.name in draft.fields;
+          else if (input.name in draft.fields) input.value = draft.fields[input.name];
+        }
+      }
+      if (Array.isArray(draft.images)) setImages(draft.images);
+      if (Array.isArray(draft.documents)) setDocuments(draft.documents);
+      if (typeof draft.amenities === "string") setAmenities(draft.amenities);
+      if (typeof draft.cover === "string") setCover(draft.cover);
+      setRestored(true);
+    } catch {
+      /* brouillon corrompu : on ignore */
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Sauvegarde quand les champs "riches" (photos, docs, équipements) changent.
+  useEffect(() => {
+    saveDraft();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [images, documents, amenities, cover]);
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -80,16 +164,26 @@ export default function PropertyForm({ property }: { property?: PropertyFull }) 
       setError(data.error || "Enregistrement impossible.");
       return;
     }
+    clearDraft();
     router.push("/gestion-9f2a7c/biens");
     router.refresh();
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-6">
+    <form ref={formRef} onSubmit={onSubmit} onChange={saveDraft} className="space-y-6">
       {error && (
         <p className="rounded-md border border-wine/30 bg-wine/5 p-3 text-sm font-semibold text-wine">
           {error}
         </p>
+      )}
+
+      {restored && (
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-md border border-gold/30 bg-gold/5 p-3 text-sm text-ink-dim">
+          <span>Brouillon non enregistré restauré.</span>
+          <button type="button" onClick={discardDraft} className="font-bold text-wine hover:underline">
+            Effacer le brouillon
+          </button>
+        </div>
       )}
 
       {/* Informations principales */}
@@ -360,7 +454,14 @@ export default function PropertyForm({ property }: { property?: PropertyFull }) 
         <button type="submit" disabled={saving} className="btn-gold disabled:opacity-60">
           {saving ? "Enregistrement…" : property ? "Mettre à jour le bien" : "Créer le bien"}
         </button>
-        <button type="button" onClick={() => router.push("/gestion-9f2a7c/biens")} className="btn-ghost">
+        <button
+          type="button"
+          onClick={() => {
+            clearDraft();
+            router.push("/gestion-9f2a7c/biens");
+          }}
+          className="btn-ghost"
+        >
           Annuler
         </button>
       </div>
