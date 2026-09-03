@@ -5,7 +5,9 @@ import { listProperties, listPropertyCities } from "@/lib/queries";
 import { PROPERTY_TYPES } from "@/lib/utils";
 import { site } from "@/lib/site";
 
-export const revalidate = 120;
+// Rendu à la demande : la page lit searchParams (recherche + filtres).
+// Avec `revalidate`, Next servait la version en cache et ignorait les filtres.
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Biens immobiliers à vendre et à louer au Bénin",
@@ -43,6 +45,7 @@ export default async function PropertiesPage({
         transaction: searchParams.transaction,
         city: searchParams.city,
         q: searchParams.q,
+        limit: 60,
       }),
       listPropertyCities(),
     ]);
