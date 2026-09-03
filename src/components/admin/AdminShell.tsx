@@ -5,10 +5,10 @@ import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const links = [
-  { href: "/admin", label: "Tableau de bord" },
-  { href: "/admin/biens", label: "Biens immobiliers" },
-  { href: "/admin/blog", label: "Blog" },
-  { href: "/admin/messages", label: "Messages" },
+  { href: "/gestion-9f2a7c", label: "Tableau de bord" },
+  { href: "/gestion-9f2a7c/biens", label: "Biens immobiliers" },
+  { href: "/gestion-9f2a7c/blog", label: "Blog" },
+  { href: "/gestion-9f2a7c/messages", label: "Messages" },
 ];
 
 export default function AdminShell({
@@ -23,7 +23,7 @@ export default function AdminShell({
 
   async function logout() {
     await fetch("/api/admin/logout", { method: "POST" });
-    router.replace("/admin/login");
+    router.replace("/gestion-9f2a7c/login");
     router.refresh();
   }
 
@@ -49,7 +49,7 @@ export default function AdminShell({
           <nav className="mt-4 flex gap-1 overflow-x-auto lg:mt-6 lg:flex-col lg:overflow-visible">
             {links.map((link) => {
               const active =
-                link.href === "/admin" ? pathname === "/admin" : pathname.startsWith(link.href);
+                link.href === "/gestion-9f2a7c" ? pathname === "/gestion-9f2a7c" : pathname.startsWith(link.href);
               return (
                 <Link
                   key={link.href}

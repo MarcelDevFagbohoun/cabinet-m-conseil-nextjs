@@ -30,7 +30,7 @@ function LoginForm() {
       setError(data.error || "Connexion impossible.");
       return;
     }
-    router.replace(params.get("next") || "/admin");
+    router.replace(params.get("next") || "/gestion-9f2a7c");
     router.refresh();
   }
 

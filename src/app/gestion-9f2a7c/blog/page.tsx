@@ -3,27 +3,27 @@ import { redirect } from "next/navigation";
 import AdminShell from "@/components/admin/AdminShell";
 import DeleteButton from "@/components/admin/DeleteButton";
 import { getSession } from "@/lib/auth";
-import { listProperties } from "@/lib/queries";
-import { formatPrice } from "@/lib/utils";
+import { listPosts } from "@/lib/queries";
+import { formatDate } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
 const PAGE_SIZE = 20;
 
-export default async function AdminPropertiesPage({
+export default async function AdminBlogPage({
   searchParams,
 }: {
   searchParams: { q?: string; page?: string };
 }) {
   const session = await getSession();
-  if (!session) redirect("/admin/login");
+  if (!session) redirect("/gestion-9f2a7c/login");
 
   const q = (searchParams.q ?? "").trim();
   const page = Math.max(Number(searchParams.page) || 1, 1);
 
-  let rows: Awaited<ReturnType<typeof listProperties>> = [];
+  let rows: Awaited<ReturnType<typeof listPosts>> = [];
   try {
-    rows = await listProperties({
+    rows = await listPosts({
       includeUnpublished: true,
       q: q || undefined,
       limit: PAGE_SIZE + 1,
@@ -34,16 +34,16 @@ export default async function AdminPropertiesPage({
   }
 
   const hasNext = rows.length > PAGE_SIZE;
-  const properties = rows.slice(0, PAGE_SIZE);
+  const posts = rows.slice(0, PAGE_SIZE);
   const pageHref = (p: number) =>
-    `/admin/biens?${new URLSearchParams({ ...(q ? { q } : {}), page: String(p) })}`;
+    `/gestion-9f2a7c/blog?${new URLSearchParams({ ...(q ? { q } : {}), page: String(p) })}`;
 
   return (
     <AdminShell userName={session.name}>
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <h1 className="text-2xl text-ink">Biens immobiliers</h1>
-        <Link href="/admin/biens/nouveau" className="btn-gold">
-          + Ajouter un bien
+        <h1 className="text-2xl text-ink">Articles du blog</h1>
+        <Link href="/gestion-9f2a7c/blog/nouveau" className="btn-gold">
+          + Écrire un article
         </Link>
       </div>
 
@@ -51,60 +51,57 @@ export default async function AdminPropertiesPage({
         <input
           name="q"
           defaultValue={q}
-          placeholder="Rechercher un titre, une ville, un quartier…"
+          placeholder="Rechercher un titre, une catégorie…"
           className="field"
         />
         <button type="submit" className="btn-ghost !py-2 text-sm">
           Rechercher
         </button>
         {q && (
-          <Link href="/admin/biens" className="btn-ghost !py-2 text-sm">
+          <Link href="/gestion-9f2a7c/blog" className="btn-ghost !py-2 text-sm">
             Réinitialiser
           </Link>
         )}
       </form>
 
       <div className="card mt-6 divide-y divide-line">
-        {properties.map((property) => (
+        {posts.map((post) => (
           <div
-            key={property.id}
+            key={post.id}
             className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between"
           >
             <div className="min-w-0">
-              <p className="font-semibold text-ink">{property.title}</p>
+              <p className="font-semibold text-ink">{post.title}</p>
               <p className="mt-0.5 text-xs text-ink-faint">
-                <span className="capitalize">{property.type}</span>
+                {post.category}
                 {" · "}
-                {property.price_on_request
-                  ? "Sur demande"
-                  : formatPrice(property.price, property.price_unit)}
-                {property.city ? ` · ${property.city}` : ""}
+                {post.published_at ? formatDate(post.published_at) : "Non publié"}
               </p>
             </div>
             <div className="flex items-center gap-4 sm:shrink-0">
               <span
                 className={`badge ${
-                  property.is_published
+                  post.is_published
                     ? "bg-emerald-100 text-emerald-800"
                     : "bg-neutral-200 text-neutral-700"
                 }`}
               >
-                {property.is_published ? "Publié" : "Brouillon"}
+                {post.is_published ? "Publié" : "Brouillon"}
               </span>
               <Link
-                href={`/admin/biens/${property.id}`}
+                href={`/gestion-9f2a7c/blog/${post.id}`}
                 className="text-xs font-bold text-gold hover:underline"
               >
                 Modifier
               </Link>
-              <DeleteButton endpoint={`/api/admin/properties/${property.id}`} />
+              <DeleteButton endpoint={`/api/admin/posts/${post.id}`} />
             </div>
           </div>
         ))}
 
-        {properties.length === 0 && (
+        {posts.length === 0 && (
           <p className="p-8 text-center text-ink-faint">
-            {q ? "Aucun bien ne correspond à cette recherche." : "Aucun bien pour le moment."}
+            {q ? "Aucun article ne correspond à cette recherche." : "Aucun article pour le moment."}
           </p>
         )}
       </div>

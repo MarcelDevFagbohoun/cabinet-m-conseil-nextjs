@@ -26,14 +26,14 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  if (pathname === "/admin/login") {
-    if (valid) return NextResponse.redirect(new URL("/admin", request.url));
+  if (pathname === "/gestion-9f2a7c/login") {
+    if (valid) return NextResponse.redirect(new URL("/gestion-9f2a7c", request.url));
     return NextResponse.next();
   }
 
-  if (pathname.startsWith("/admin")) {
+  if (pathname.startsWith("/gestion-9f2a7c")) {
     if (!valid) {
-      const url = new URL("/admin/login", request.url);
+      const url = new URL("/gestion-9f2a7c/login", request.url);
       url.searchParams.set("next", pathname);
       return NextResponse.redirect(url);
     }
@@ -43,5 +43,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/api/admin/:path*"],
+  matcher: ["/gestion-9f2a7c/:path*", "/api/admin/:path*"],
 };

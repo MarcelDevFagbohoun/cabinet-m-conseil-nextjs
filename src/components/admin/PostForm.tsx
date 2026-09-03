@@ -41,7 +41,7 @@ export default function PostForm({ post }: { post?: Post }) {
       setError(data.error || "Enregistrement impossible.");
       return;
     }
-    router.push("/admin/blog");
+    router.push("/gestion-9f2a7c/blog");
     router.refresh();
   }
 
@@ -117,7 +117,7 @@ export default function PostForm({ post }: { post?: Post }) {
         <button type="submit" disabled={saving} className="btn-gold disabled:opacity-60">
           {saving ? "Enregistrement…" : post ? "Mettre à jour" : "Créer l'article"}
         </button>
-        <button type="button" onClick={() => router.push("/admin/blog")} className="btn-ghost">
+        <button type="button" onClick={() => router.push("/gestion-9f2a7c/blog")} className="btn-ghost">
           Annuler
         </button>
       </div>

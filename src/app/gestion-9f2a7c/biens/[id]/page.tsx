@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 
 export default async function AdminPropertyEditPage({ params }: { params: { id: string } }) {
   const session = await getSession();
-  if (!session) redirect("/admin/login");
+  if (!session) redirect("/gestion-9f2a7c/login");
 
   const isNew = params.id === "nouveau";
   const property = isNew ? undefined : await getPropertyById(Number(params.id)).catch(() => null);

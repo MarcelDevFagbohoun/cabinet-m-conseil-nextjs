@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 
 export default async function AdminPostEditPage({ params }: { params: { id: string } }) {
   const session = await getSession();
-  if (!session) redirect("/admin/login");
+  if (!session) redirect("/gestion-9f2a7c/login");
 
   const isNew = params.id === "nouveau";
   const post = isNew ? undefined : await getPostById(Number(params.id)).catch(() => null);

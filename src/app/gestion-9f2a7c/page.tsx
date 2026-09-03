@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 
 export default async function AdminDashboard() {
   const session = await getSession();
-  if (!session) redirect("/admin/login");
+  if (!session) redirect("/gestion-9f2a7c/login");
 
   let stats = { properties: 0, publishedProperties: 0, posts: 0, unreadMessages: 0 };
   let dbError = false;
@@ -33,10 +33,10 @@ export default async function AdminDashboard() {
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {[
-          { label: "Biens enregistrés", value: stats.properties, href: "/admin/biens" },
-          { label: "Biens publiés", value: stats.publishedProperties, href: "/admin/biens" },
-          { label: "Articles", value: stats.posts, href: "/admin/blog" },
-          { label: "Messages non lus", value: stats.unreadMessages, href: "/admin/messages" },
+          { label: "Biens enregistrés", value: stats.properties, href: "/gestion-9f2a7c/biens" },
+          { label: "Biens publiés", value: stats.publishedProperties, href: "/gestion-9f2a7c/biens" },
+          { label: "Articles", value: stats.posts, href: "/gestion-9f2a7c/blog" },
+          { label: "Messages non lus", value: stats.unreadMessages, href: "/gestion-9f2a7c/messages" },
         ].map((stat) => (
           <Link key={stat.label} href={stat.href} className="card p-5 transition hover:border-gold/40">
             <p className="font-display text-3xl font-bold text-gold">{stat.value}</p>
@@ -46,9 +46,9 @@ export default async function AdminDashboard() {
       </div>
 
       <div className="mt-8 flex flex-wrap gap-3">
-        <Link href="/admin/biens/nouveau" className="btn-gold">+ Ajouter un bien</Link>
-        <Link href="/admin/blog/nouveau" className="btn-ghost">+ Écrire un article</Link>
-        <Link href="/admin/messages" className="btn-ghost">Voir les messages</Link>
+        <Link href="/gestion-9f2a7c/biens/nouveau" className="btn-gold">+ Ajouter un bien</Link>
+        <Link href="/gestion-9f2a7c/blog/nouveau" className="btn-ghost">+ Écrire un article</Link>
+        <Link href="/gestion-9f2a7c/messages" className="btn-ghost">Voir les messages</Link>
       </div>
     </AdminShell>
   );

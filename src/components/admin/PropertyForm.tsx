@@ -80,7 +80,7 @@ export default function PropertyForm({ property }: { property?: PropertyFull }) 
       setError(data.error || "Enregistrement impossible.");
       return;
     }
-    router.push("/admin/biens");
+    router.push("/gestion-9f2a7c/biens");
     router.refresh();
   }
 
@@ -360,7 +360,7 @@ export default function PropertyForm({ property }: { property?: PropertyFull }) 
         <button type="submit" disabled={saving} className="btn-gold disabled:opacity-60">
           {saving ? "Enregistrement…" : property ? "Mettre à jour le bien" : "Créer le bien"}
         </button>
-        <button type="button" onClick={() => router.push("/admin/biens")} className="btn-ghost">
+        <button type="button" onClick={() => router.push("/gestion-9f2a7c/biens")} className="btn-ghost">
           Annuler
         </button>
       </div>

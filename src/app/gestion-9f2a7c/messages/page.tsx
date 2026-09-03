@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 
 export default async function AdminMessagesPage() {
   const session = await getSession();
-  if (!session) redirect("/admin/login");
+  if (!session) redirect("/gestion-9f2a7c/login");
 
   let messages: ContactMessage[] = [];
   try {
