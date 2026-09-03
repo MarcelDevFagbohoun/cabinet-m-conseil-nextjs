@@ -38,7 +38,8 @@ export default function Header() {
             className="h-11 w-11 object-contain"
             priority
           />
-          <span className="leading-tight">
+          {/* Nom + accroche masqués sous lg (petits portables / mobile) : logo seul */}
+          <span className="hidden leading-tight lg:block">
             <span className="block font-display text-[17px] font-bold text-ink">
               Cabinet <em className="not-italic text-gold">M</em> Conseils
             </span>
