@@ -34,11 +34,7 @@ export default async function HomePage() {
           <div className="animate-fade-up flex flex-col justify-center">
             <p className="eyebrow">Cabinet M Conseils, plus de 13 ans d&apos;expérience</p>
             <h1 className="text-[42px] leading-[1.05] text-ink sm:text-[58px]">
-              La rigueur du droit,
-              <br />
-              <span className="bg-gradient-to-r from-gold to-wine bg-clip-text text-transparent">
-                l&apos;accompagnement en plus.
-              </span>
+              La rigueur du droit, l&apos;accompagnement en plus.
             </h1>
             <p className="mt-6 max-w-2xl text-[17px] leading-relaxed text-ink-dim">
               Depuis plus de 13 ans, nous rédigeons, sécurisons et défendons les engagements les

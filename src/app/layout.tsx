@@ -135,6 +135,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html lang="fr" className={`${display.variable} ${body.variable}`}>
+      <head>
+        {/* Les images des biens sont servies depuis Vercel Blob */}
+        <link rel="preconnect" href="https://blob.vercel-storage.com" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://blob.vercel-storage.com" />
+      </head>
       <body className="grain">
         <script
           type="application/ld+json"
