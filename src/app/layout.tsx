@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Libre_Caslon_Text, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import Clarity from "@/components/Clarity";
 import { site } from "@/lib/site";
 
 const display = Libre_Caslon_Text({
@@ -146,6 +147,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <div className="relative z-10">{children}</div>
+        <Clarity />
       </body>
     </html>
   );
