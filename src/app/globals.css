@@ -156,6 +156,51 @@
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
+/* Préchargeur : balance de justice (SVG + CSS, aucune ressource externe) */
+#cmc-preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  background: rgb(var(--bg));
+  /* Filet de sécurité : se retire seul même si le script échoue */
+  animation: cmc-pre-out 0.5s ease 1.15s forwards;
+}
+#cmc-preloader.is-hidden {
+  animation: none;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+#cmc-preloader .cmc-scale {
+  width: 84px;
+  height: 92px;
+  color: rgb(var(--gold));
+  will-change: transform, opacity;
+  animation: cmc-pre-pop 1.3s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+#cmc-preloader .cmc-beam {
+  transform-origin: 60px 31px;
+  animation: cmc-beam-settle 1.15s cubic-bezier(0.3, 0.85, 0.25, 1) both;
+}
+@keyframes cmc-beam-settle {
+  0% { transform: rotate(-15deg); }
+  32% { transform: rotate(9deg); }
+  58% { transform: rotate(-5deg); }
+  80% { transform: rotate(2.5deg); }
+  100% { transform: rotate(0); }
+}
+@keyframes cmc-pre-pop {
+  0% { opacity: 0; transform: scale(0.82); }
+  14% { opacity: 1; }
+  80% { transform: scale(1); }
+  100% { transform: scale(1.05); opacity: 0; }
+}
+@keyframes cmc-pre-out {
+  to { opacity: 0; visibility: hidden; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -163,5 +208,10 @@
     animation-duration: 0.001ms !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
+  }
+  #cmc-preloader {
+    animation: none;
+    opacity: 0;
+    visibility: hidden;
   }
 }
