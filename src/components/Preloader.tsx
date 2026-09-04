@@ -1,14 +1,13 @@
 // Préchargeur : balance de justice animée, SVG + CSS uniquement.
-// Rendu dans le HTML initial (aucune requête). Se retire au `load` de la
-// page (ou après un filet de sécurité), une fois par session, et ne
-// s'affiche pas si l'utilisateur préfère les animations réduites.
+// Rendu dans le HTML initial (aucune requête). S'affiche à chaque
+// chargement complet de page (pas lors des navigations internes
+// Next.js, qui ne rechargent pas le document) ; ne s'affiche pas si
+// l'utilisateur préfère les animations réduites.
 
 const dismissScript = `(function(){try{
 var p=document.getElementById('cmc-preloader');if(!p)return;
 var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-var seen;try{seen=sessionStorage.getItem('cmc-pre')}catch(e){}
-if(reduce||seen){p.classList.add('is-hidden');return}
-try{sessionStorage.setItem('cmc-pre','1')}catch(e){}
+if(reduce){p.classList.add('is-hidden');return}
 var hide=function(){p.classList.add('is-hidden')};
 window.addEventListener('load',function(){setTimeout(hide,350)});
 setTimeout(hide,2200);
