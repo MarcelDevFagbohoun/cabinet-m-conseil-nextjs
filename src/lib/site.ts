@@ -7,6 +7,8 @@ export const site = {
   whatsapp: "2290195380006",
   whatsappDisplay: "+229 01 95 38 00 06",
   phone: "01 69 58 81 81",
+  // À confirmer par le cabinet (utilisé dans la politique de confidentialité).
+  email: "contact@cabinetmconseil.com",
   city: "Cotonou, République du Bénin",
   linkedin: "https://www.linkedin.com/",
   facebook: "https://www.facebook.com/",

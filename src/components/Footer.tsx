@@ -65,7 +65,12 @@ export default function Footer() {
       <div className="border-t border-white/10">
         <div className="container-x flex flex-col gap-2 py-5 text-xs sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} Cabinet M Conseils. Tous droits réservés.</p>
-          <p>{site.city}</p>
+          <div className="flex items-center gap-4">
+            <Link className="hover:text-gold-light" href="/confidentialite">
+              Politique de confidentialité
+            </Link>
+            <span>{site.city}</span>
+          </div>
         </div>
       </div>
     </footer>
